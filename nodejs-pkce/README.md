@@ -31,3 +31,6 @@
 - Install the app to your Thinkific site
 - An access token is generated and stored
 - User is redirect /app where you can test the Thinkific API endpoints
+
+## Thinkific Apps FAQ
+- Getting started with apps (https://developers.thinkific.com/building-apps/#getting-started-with-apps)
