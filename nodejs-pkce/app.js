@@ -14,10 +14,6 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(cookieParser());
 
-// GLOBAL VARIABLES
-var thinkificSub = '';
-var tokenValidation;
-
 // CRYPTO MODULE
 const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
@@ -83,7 +79,7 @@ app.get('/install', (req, res) => {
   thinkificSub = `https://${subdomain}.thinkific.com`;
 
   res.redirect(
-    `https://${subdomain}.thinkific.com/oauth2/authorize?client_id=${process.env.CLIENT_KEY}&redirect_uri=${redirect_uri}&state=${state}&response_type=code&code_challenge=${code_challenge}&code_challenge_method=S256`
+    `https://${subdomain}.thinkific.com/oauth2/authorize?client_id=${process.env.CLIENT_KEY}&redirect_uri=${redirect_uri}&state=${state}&response_type=code&code_challenge=${code_challenge}&code_challenge_method=S256&`
   );
 });
 
@@ -150,19 +146,34 @@ app.post('/app', (req, res) => {
   // MAKE THE API CALL
   const sendRequest = async () => {
     try {
-      const resp = await axios({
-        method: method,
-        url: baseUrl,
-        headers: {
-          Authorization: 'Bearer ' + decryptToken(req.cookies.token),
-          'Content-Type': 'application/json',
-        },
-        data: bodyParams,
-      });
-      var respData = resp.data.items;
-      res.render('pages/response', {
-        respData: respData,
-      });
+      if (method == 'get') {
+        const resp = await axios({
+          method: method,
+          url: baseUrl,
+          headers: {
+            Authorization: 'Bearer ' + decryptToken(req.cookies.token),
+            'Content-Type': 'application/json',
+          },
+        });
+        var respData = resp.data.items;
+        res.render('pages/response', {
+          respData: respData,
+        });
+      } else {
+        const resp = await axios({
+          method: method,
+          url: baseUrl,
+          headers: {
+            Authorization: 'Bearer ' + decryptToken(req.cookies.token),
+            'Content-Type': 'application/json',
+          },
+          data: bodyParams,
+        });
+        var respData = resp.data.items;
+        res.render('pages/response', {
+          respData: respData,
+        });
+      }
     } catch (error) {
       var errorMessage = error.message;
       if (errorMessage.includes('401')) {
