@@ -21,8 +21,8 @@
 - **Partner Portal**: Add http://localhost:8080/authcodeflow in the **App Settings & Details > Callback URL**
 - **Github**: Download sample app files
 - **Terminal**: Go to sample app's directory and run **npm install**
-- Find and open the **.env** file in the app directory
-- Copy-paste your **CLIENT_KEY**. and **CLIENT_SECRET**.
+- Find and duplicate the **.env.example** renaming it to **.env**
+- Copy-paste your **CLIENT_KEY**. and **CLIENT_SECRET** from the API Access section in the Partner Portal
 - **Terminal**: run **node app.js**. to start the server
 
 ## How to use the sample app:
